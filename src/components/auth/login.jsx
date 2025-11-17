@@ -11,13 +11,13 @@ import {
   Avatar,
   Divider,
   Grid,
-  Checkbox,
-  FormControlLabel,
   Link,
   useTheme,
   useMediaQuery,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
-import { LockOutlined, Google, GitHub } from "@mui/icons-material";
+import { LockOutlined, Visibility, VisibilityOff } from "@mui/icons-material";
 import { useAuth } from "../../context/AuthContext";
 
 const Login = () => {
@@ -25,7 +25,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
 
   const theme = useTheme();
@@ -35,13 +35,9 @@ const Login = () => {
     e.preventDefault();
     setError("");
 
+    // Basic validation
     if (!email || !password) {
       setError("Please enter both email and password");
-      return;
-    }
-
-    if (password.length < 3) {
-      setError("Password must be at least 3 characters");
       return;
     }
 
@@ -56,249 +52,290 @@ const Login = () => {
     }
   };
 
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <Box
       sx={{
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
-        // background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-        py: 4,
-        px: 2,
+        position: "relative",
+        overflow: "hidden",
       }}
     >
-      <Container maxWidth="lg">
+      {/* Full Screen Background Image */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage:
+            "url('https://ecme-next.themenate.net/img/others/auth-side-bg.png')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          zIndex: 0,
+          "&::before": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background:
+              "linear-gradient(90deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0.4) 100%)",
+            zIndex: 1,
+          },
+        }}
+      />
+
+      <Container maxWidth="lg" sx={{ position: "relative", zIndex: 2 }}>
         <Grid
           container
-          justifyContent="center"
+          justifyContent="flex-start"
           alignItems="center"
           sx={{ minHeight: "100vh" }}
         >
-          {/* Login Form Section */}
-          <Grid item xs={12} md={6}>
+          {/* Login Form Section - Left Side */}
+          <Grid item xs={12} md={6} lg={5}>
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: {
+                  xs: "center", // ✅ Mobile: center
+                  md: "flex-start", // ✅ Desktop: left
+                },
                 alignItems: "center",
                 height: "100%",
               }}
             >
-              <Paper
-                elevation={0}
-                sx={{
-                  padding: { xs: 3, md: 4 },
-                  background: "transparent",
-                  width: "100%",
-                  maxWidth: 400,
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-start",
-                    width: "100%",
-                  }}
-                >
-                  {/* Avatar - Top Left */}
-                  <Avatar
-                    sx={{
-                      mb: 3,
-                      bgcolor: "transparent",
-                      width: 60,
-                      height: 60,
-                      "& .MuiSvgIcon-root": {
-                        color: "#120208ff",
-                        fontSize: 40,
-                      },
-                    }}
-                  >
-                    <LockOutlined />
-                  </Avatar>
-
-                  {/* Welcome Text */}
-                  <Typography
-                    component="h1"
-                    variant="h4"
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#120208ff",
-                      mb: 1,
-                      textAlign: "left",
-                      width: "100%",
-                    }}
-                  >
-                    Welcome back!
-                  </Typography>
-
-                  <Typography
-                    variant="body1"
-                    color="#120208ff"
-                    sx={{
-                      mb: 4,
-                      textAlign: "left",
-                      width: "100%",
-                      opacity: 0.8,
-                    }}
-                  >
-                    Please enter your credentials to sign in!
-                  </Typography>
-
-                  {error && (
-                    <Alert
-                      severity="error"
-                      sx={{
-                        width: "100%",
-                        mb: 3,
-                        borderRadius: 2,
-                      }}
-                    >
-                      {error}
-                    </Alert>
-                  )}
-
-                  <Box
-                    component="form"
-                    onSubmit={handleSubmit}
-                    sx={{ width: "350px" }}
-                  >
-                    {/* Email Field */}
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      label="Email"
-                      type="email"
-                      autoComplete="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      sx={{
-                        mb: 2,
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: "12px", // <-- yahan se roundness control hoti hai
-                        },
-                      }}
-                    />
-
-                    {/* Password Field */}
-                    <TextField
-                      margin="normal"
-                      required
-                      fullWidth
-                      label="Password"
-                      type="password"
-                      autoComplete="current-password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Enter your password"
-                      sx={{
-                        mb: 1,
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: "12px",
-                        },
-                      }}
-                    />
-
-                    {/* Forgot Password Link - Right Aligned */}
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "flex-end",
-                        alignItems: "center",
-                        mb: 3,
-                        width: "100%",
-                      }}
-                    >
-                      <Link
-                        href="#"
-                        variant="body2"
-                        sx={{
-                          textDecoration: "none",
-                          color: "#120208ff",
-                          fontWeight: "500",
-                          opacity: 0.8,
-                          "&:hover": {
-                            textDecoration: "underline",
-                            opacity: 1,
-                          },
-                        }}
-                      >
-                        Forgot password?
-                      </Link>
-                    </Box>
-
-                    {/* Sign In Button */}
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      disabled={loading}
-                      sx={{
-                        mt: 1,
-                        mb: 3,
-                        py: 1.5,
-                        borderRadius: 2,
-                        fontSize: "1rem",
-                        fontWeight: "bold",
-                        backgroundColor: "#2a85ff",
-                        color: "white",
-                        "&:hover": { backgroundColor: "#0069ff" },
-                        transition: "all 0.3s ease",
-                      }}
-                    >
-                      {loading ? (
-                        <CircularProgress size={24} sx={{ color: "white" }} />
-                      ) : (
-                        "Sign In"
-                      )}
-                    </Button>
-
-                    {/* Simple Divider - No Text */}
-                    <Divider sx={{ my: 3 }} />
-                  </Box>
-                </Box>
-              </Paper>
-            </Box>
-          </Grid>
-          {/* Image/Branding Section - Hidden on mobile */}
-          {!isMobile && (
-            <Grid item xs={12} md={6}>
               <Box
                 sx={{
-                  textAlign: "center",
-                  color: "white",
-                  // p: 4,
-                  // py: 8,
-                  ml: 12,
-                  height: "760px",
-                  width: "600px",
                   display: "flex",
                   flexDirection: "column",
-                  justifyContent: "center",
-                  position: "relative",
-                  overflow: "hidden",
+                  alignItems: {
+                    xs: "center", // ✅ Mobile: center
+                    md: "flex-start", // ✅ Desktop: left
+                  },
+                  width: "100%",
+                  maxWidth: "400px",
                 }}
               >
-                {/* Background Image */}
-                <Box
+                {/* Avatar - Responsive Alignment */}
+                <Avatar
                   sx={{
-                    position: "absolute",
-                    top: 0,
-                    left: 32,
-                    right: 0,
-                    bottom: 20,
-                    backgroundImage:
-                      "url('https://ecme-next.themenate.net/img/others/auth-side-bg.png')",
-                    backgroundSize: "cover",
-                    // backgroundPosition: "center",
-                    // backgroundRepeat: "no-repeat",
-                    // zIndex: 0,
+                    mb: 3,
+                    bgcolor: "#120208ff",
+                    width: 60,
+                    height: 60,
+                    "& .MuiSvgIcon-root": {
+                      color: "white",
+                      fontSize: 30,
+                    },
+                    alignSelf: {
+                      xs: "center", // ✅ Mobile: center
+                      md: "flex-start", // ✅ Desktop: left
+                    },
                   }}
-                />
+                >
+                  <LockOutlined />
+                </Avatar>
+
+                {/* Welcome Text - Responsive Alignment */}
+                <Typography
+                  component="h1"
+                  variant="h4"
+                  sx={{
+                    fontWeight: "bold",
+                    color: "#120208ff",
+                    mb: 1,
+                    textAlign: {
+                      xs: "center", // ✅ Mobile: center
+                      md: "left", // ✅ Desktop: left
+                    },
+                    width: "100%",
+                    alignSelf: {
+                      xs: "center", // ✅ Mobile: center
+                      md: "flex-start", // ✅ Desktop: left
+                    },
+                  }}
+                >
+                  Welcome back!
+                </Typography>
+
+                <Typography
+                  variant="body1"
+                  color="#120208ff"
+                  sx={{
+                    mb: 4,
+                    textAlign: {
+                      xs: "center", // ✅ Mobile: center
+                      md: "left", // ✅ Desktop: left
+                    },
+                    width: "100%",
+                    alignSelf: {
+                      xs: "center", // ✅ Mobile: center
+                      md: "flex-start", // ✅ Desktop: left
+                    },
+                  }}
+                >
+                  Please enter your credentials to sign in!
+                </Typography>
+
+                {error && (
+                  <Alert
+                    severity="error"
+                    sx={{
+                      width: "100%",
+                      mb: 3,
+                      borderRadius: 2,
+                    }}
+                  >
+                    {error}
+                  </Alert>
+                )}
+
+                <Box
+                  component="form"
+                  onSubmit={handleSubmit}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: {
+                      xs: "center", // ✅ Mobile: center
+                      md: "flex-start", // ✅ Desktop: left
+                    },
+                  }}
+                >
+                  {/* Email Field */}
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Email"
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    sx={{
+                      mb: 3,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "12px",
+                        backgroundColor: "#f7f7f8",
+                        "& fieldset": {
+                          borderColor: "#e5e5e7",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#2a85ff",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#2a85ff",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "#6b6b6b",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "#2a85ff",
+                      },
+                    }}
+                  />
+
+                  {/* Password Field with Eye Icon */}
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    label="Password"
+                    type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            edge="end"
+                            sx={{
+                              color: "#6b6b6b",
+                              "&:hover": {
+                                color: "#2a85ff",
+                              },
+                            }}
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={{
+                      mb: 1,
+                      "& .MuiOutlinedInput-root": {
+                        borderRadius: "12px",
+                        backgroundColor: "#f7f7f8",
+                        "& fieldset": {
+                          borderColor: "#e5e5e7",
+                        },
+                        "&:hover fieldset": {
+                          borderColor: "#2a85ff",
+                        },
+                        "&.Mui-focused fieldset": {
+                          borderColor: "#2a85ff",
+                        },
+                      },
+                      "& .MuiInputLabel-root": {
+                        color: "#6b6b6b",
+                      },
+                      "& .MuiInputLabel-root.Mui-focused": {
+                        color: "#2a85ff",
+                      },
+                    }}
+                  />
+
+                  {/* Sign In Button */}
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    disabled={loading}
+                    sx={{
+                      mt: 3,
+                      mb: 1,
+                      py: 1.5,
+                      borderRadius: "12px",
+                      fontSize: "1rem",
+                      fontWeight: "bold",
+                      backgroundColor: "#2a85ff",
+                      color: "white",
+                      "&:hover": {
+                        backgroundColor: "#0069ff",
+                        transform: "translateY(-1px)",
+                        boxShadow: "0 4px 12px rgba(42, 133, 255, 0.3)",
+                      },
+                      transition: "all 0.3s ease",
+                    }}
+                  >
+                    {loading ? (
+                      <CircularProgress size={24} sx={{ color: "white" }} />
+                    ) : (
+                      "Sign In"
+                    )}
+                  </Button>
+
+                  {/* Simple Divider - No Text */}
+                  <Divider sx={{ my: 3 }} />
+                </Box>
               </Box>
-            </Grid>
-          )}
+            </Box>
+          </Grid>
         </Grid>
       </Container>
     </Box>

@@ -1,66 +1,85 @@
 import React, { useState } from "react";
-import { Box, Drawer, Toolbar } from "@mui/material";
+import { Box, Drawer } from "@mui/material";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 
-const drawerWidth = 240;
-
 const MainLayout = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const handleSidebarToggle = () => {
+    setSidebarCollapsed(!sidebarCollapsed);
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
-      <Header onDrawerToggle={handleDrawerToggle} />
+      {/* Desktop Sidebar */}
       <Box
         component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+        sx={{
+          width: sidebarCollapsed ? 64 : 280,
+          flexShrink: 0,
+          transition: "width 0.3s ease",
+        }}
       >
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: "block", sm: "none" },
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: drawerWidth,
-            },
-          }}
-        >
-          <Sidebar />
-        </Drawer>
         <Drawer
           variant="permanent"
           sx={{
             display: { xs: "none", sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
-              width: drawerWidth,
+              width: sidebarCollapsed ? 64 : 280,
+              transition: "width 0.3s ease",
             },
           }}
           open
         >
-          <Sidebar />
+          <Sidebar
+            isCollapsed={sidebarCollapsed}
+            onToggle={handleSidebarToggle}
+          />
         </Drawer>
       </Box>
+
+      {/* Main Content Area */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          width: { sm: `calc(100% - ${sidebarCollapsed ? 64 : 280}px)` },
+          transition: "width 0.3s ease",
+          minHeight: "100vh",
+          backgroundColor: "#f5f8fa",
         }}
       >
-        <Toolbar />
-        {children}
+        <Header onDrawerToggle={handleDrawerToggle} />
+
+        {/* Page Content */}
+        <Box sx={{ p: 3 }}>{children}</Box>
       </Box>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        variant="temporary"
+        open={mobileOpen}
+        onClose={handleDrawerToggle}
+        ModalProps={{
+          keepMounted: true,
+        }}
+        sx={{
+          display: { xs: "block", sm: "none" },
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box",
+            width: 280,
+          },
+        }}
+      >
+        <Sidebar isCollapsed={false} onToggle={handleSidebarToggle} />
+      </Drawer>
     </Box>
   );
 };

@@ -20,6 +20,7 @@ import Products from "./pages/Products";
 import Orders from "./pages/Orders";
 import Customers from "./pages/Customers";
 import Settings from "./pages/Settings";
+import ProfilePage from "./components/layout/ProfilePage";
 
 const theme = createTheme({
   palette: {
@@ -90,6 +91,17 @@ function AppRoutes() {
           <PrivateRoute>
             <MainLayout>
               <Settings />
+            </MainLayout>
+          </PrivateRoute>
+        }
+      />
+      {/* Profile Page Route Added */}
+      <Route
+        path="/profile"
+        element={
+          <PrivateRoute>
+            <MainLayout>
+              <ProfilePage />
             </MainLayout>
           </PrivateRoute>
         }
