@@ -3,55 +3,53 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#667eea",
-      light: "#8a9ef5",
-      dark: "#5a6fd8",
+      main: "#3699ff",
+      light: "#e1f0ff",
     },
     secondary: {
-      main: "#764ba2",
-      light: "#8a5cb4",
-      dark: "#6a4190",
+      main: "#8950fc",
+    },
+    success: {
+      main: "#1bc5bd",
+    },
+    warning: {
+      main: "#ffa800",
+    },
+    error: {
+      main: "#f64e60",
     },
     background: {
-      default: "#f8fafc",
+      default: "#f5f8fa",
+      paper: "#ffffff",
     },
   },
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h3: {
-      fontWeight: 700,
-    },
     h4: {
       fontWeight: 600,
     },
     h6: {
-      fontWeight: 500,
+      fontWeight: 600,
     },
   },
   components: {
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          textTransform: "none",
-          borderRadius: 8,
-        },
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          "& .MuiOutlinedInput-root": {
-            borderRadius: 8,
-          },
-        },
-      },
-    },
-    MuiPaper: {
+    MuiCard: {
       styleOverrides: {
         root: {
           borderRadius: 12,
         },
       },
     },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: 8,
+          textTransform: "none",
+          fontWeight: 500,
+        },
+      },
+    },
   },
 });
+
+export default theme;
