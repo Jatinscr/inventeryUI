@@ -16,7 +16,7 @@ import {
   Menu as MenuIcon,
   Search,
   Notifications,
-  Settings,
+    Settings,
   AccountCircle,
   Logout,
   Close,

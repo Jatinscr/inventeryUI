@@ -19,7 +19,7 @@ import {
   TableRow,
 } from "@mui/material";
 import {
-  MoreVert,
+  // MoreVert,
   TrendingUp,
   TrendingDown,
   ShoppingCart,
@@ -234,7 +234,7 @@ const Dashboard = () => {
         <Typography variant="h4" fontWeight="bold" gutterBottom>
           E-Commerce Dashboard
         </Typography>
-        <Typography variant="h5" color="textSecondary">
+        <Typography variant="h5" sx={{ color: "text.secondary" }}>
           Here's what's happening with your store today.
         </Typography>
       </Box>

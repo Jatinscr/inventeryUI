@@ -1,3 +1,4 @@
+// theme.js
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -22,22 +23,20 @@ const theme = createTheme({
       default: "#f5f8fa",
       paper: "#ffffff",
     },
+    text: {
+      primary: "#181C32", // dark text
+      secondary: "#3b4891ff", // subtitle color
+    },
   },
   typography: {
     fontFamily: '"Inter", "Roboto", "Helvetica", "Arial", sans-serif',
-    h4: {
-      fontWeight: 600,
-    },
-    h6: {
-      fontWeight: 600,
-    },
+    h4: { fontWeight: 600 },
+    h6: { fontWeight: 600 },
   },
   components: {
     MuiCard: {
       styleOverrides: {
-        root: {
-          borderRadius: 12,
-        },
+        root: { borderRadius: 12 },
       },
     },
     MuiButton: {

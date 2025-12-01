@@ -5,10 +5,10 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+// import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { AuthProvider, useAuth } from "./context/AuthContext";
-
+import { ThemeProvider } from "@mui/material/styles";
 // Components
 import Login from "./components/auth/login";
 import PrivateRoute from "./components/auth/PrivateRoute";
@@ -21,20 +21,7 @@ import Orders from "./pages/Orders";
 import Customers from "./pages/Customers";
 import Settings from "./pages/Settings";
 import ProfilePage from "./components/layout/ProfilePage";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#1976d2",
-    },
-    secondary: {
-      main: "#dc004e",
-    },
-    background: {
-      default: "#f5f5f5",
-    },
-  },
-});
+import theme from "./styles/theme";
 
 function AppRoutes() {
   const { currentUser } = useAuth();
