@@ -16,7 +16,7 @@ import {
   Menu as MenuIcon,
   Search,
   Notifications,
-    Settings,
+  Settings,
   AccountCircle,
   Logout,
   Close,
@@ -68,7 +68,7 @@ const Header = ({ onDrawerToggle }) => {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "white",
+        backgroundColor: "background.paper",  
         color: "#3f4254",
         boxShadow: "0px 1px 9px -3px rgba(0,0,0,0.1)",
         borderBottom: "1px solid #e4e6ef",
@@ -84,7 +84,7 @@ const Header = ({ onDrawerToggle }) => {
           sx={{
             mr: 2,
             display: { sm: "none" },
-            color: "#7e8299",
+            color: "text.secondary",
           }}
         >
           <MenuIcon />
@@ -96,7 +96,7 @@ const Header = ({ onDrawerToggle }) => {
           aria-label="search"
           onClick={handleSearchOpen}
           sx={{
-            color: "#7e8299",
+            color: "icon.default",
             "&:hover": {
               backgroundColor: "rgba(0, 0, 0, 0.04)",
             },
@@ -200,7 +200,7 @@ const Header = ({ onDrawerToggle }) => {
                   sx={{
                     width: 32,
                     height: 32,
-                    bgcolor: "#3699ff",
+                    bgcolor: "icon.default",
                     fontSize: "0.875rem",
                     fontWeight: "bold",
                   }}
@@ -234,7 +234,7 @@ const Header = ({ onDrawerToggle }) => {
               >
                 {/* ✅ FIXED: No hooks used */}
                 <MenuItem onClick={handleProfileClick}>
-                  <AccountCircle sx={{ mr: 1, fontSize: 20 }} />
+                  <AccountCircle sx={{ mr: 1, fontSize: 20 , color:"text.primary"}} />
                   My Profile
                 </MenuItem>
                 {/* <MenuItem onClick={handleClose}>

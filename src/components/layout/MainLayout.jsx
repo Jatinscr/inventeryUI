@@ -53,7 +53,7 @@ const MainLayout = ({ children }) => {
           width: { sm: `calc(100% - ${sidebarCollapsed ? 64 : 280}px)` },
           transition: "width 0.3s ease",
           minHeight: "100vh",
-          backgroundColor: "#f5f8fa",
+          backgroundColor: "background.paper",
         }}
       >
         <Header onDrawerToggle={handleDrawerToggle} />

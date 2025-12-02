@@ -20,12 +20,16 @@ const theme = createTheme({
       main: "#f64e60",
     },
     background: {
-      default: "#f5f8fa",
-      paper: "#ffffff",
+      // default: "#f5f8fa",
+      paper: "#fffafae6",
     },
     text: {
-      primary: "#181C32", // dark text
+      primary: "#4018e1ff", // dark text
       secondary: "#3b4891ff", // subtitle color
+    },
+    icon: {
+      default: "#913b3eff",
+      active: "#3699ff",
     },
   },
   typography: {
@@ -45,6 +49,7 @@ const theme = createTheme({
           borderRadius: 8,
           textTransform: "none",
           fontWeight: 500,
+          color: "#700af6ff",
         },
       },
     },
